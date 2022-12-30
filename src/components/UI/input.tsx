@@ -50,6 +50,7 @@ const Input = React.forwardRef((props: InputProps, ref: any) => {
         ref={ref}
         id={name}
         type={type}
+        step="any"
         className="rounded border-2 border-transparent bg-gray-200 p-2 text-gray-900 caret-red-600 hover:border-red-600 focus:border-red-600 focus:outline-0 md:w-72"
       />
     </div>
