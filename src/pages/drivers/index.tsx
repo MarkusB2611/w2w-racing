@@ -1,16 +1,12 @@
 import Title from "../../components/UI/title";
 
 import AddDriverForm from "../../components/drivers/add-driver-form";
-// import { useQuery, useQueryClient } from "react-query";
-// import { Driver, getDrivers } from "../../models/driver";
+import { trpc } from "../../utils/trpc";
+import { Driver } from "@prisma/client";
 
 const DriversPage = () => {
-  //   const queryClient = useQueryClient();
-  //   const { isLoading, isError, data, error } = useQuery("drivers", getDrivers);
-
-  //   if (isLoading) {
-  //     return <p>loading</p>;
-  //   }
+  const drivers = trpc.driver.getAllDrivers.useQuery();
+  console.log(drivers);
   return (
     <div className=" flex flex-col justify-between gap-8 p-4 sm:px-24 md:flex-row">
       <div className="md:order-2">
@@ -36,10 +32,10 @@ const DriversPage = () => {
           </thead>
 
           <tbody>
-            {/* {data.data.map((driver: Driver) => {
+            {drivers.data?.map((driver: Driver) => {
               return (
                 <tr
-                  key={driver._id}
+                  key={driver.id}
                   className="odd: h-12 border-spacing-4 bg-gray-900 even:bg-gray-800"
                 >
                   <td>{driver.name}</td>
@@ -49,7 +45,7 @@ const DriversPage = () => {
                   <td>{driver.isStarter ? "yes" : "no"}</td>
                 </tr>
               );
-            })} */}
+            })}
           </tbody>
         </table>
       </div>

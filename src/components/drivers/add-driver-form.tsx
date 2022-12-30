@@ -1,47 +1,48 @@
 import Title from "../UI/title";
 import Input from "../UI/input";
 import { FormEvent, useRef, useState } from "react";
-// import { addDriver, Driver } from "../../models/driver";
 import { toast } from "react-toastify";
+import { Driver } from "../../models/driver";
+import { trpc } from "../../utils/trpc";
 
 const AddDriverForm = () => {
-  //   const queryClient = useQueryClient();
-  //   const mutation = useMutation(addDriver, {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("drivers");
-  //       toast.success("Driver added");
-  //     },
-  //   });
   const [timezone, setTimezone] = useState({});
   const nameRef = useRef<HTMLInputElement>();
   const accountIdRef = useRef();
   const starterRef = useRef();
+  const getAllDrivers = trpc.driver.getAllDrivers.useQuery();
+  const addDriverMutation = trpc.driver.addDriver.useMutation({
+    onSuccess: () => {
+      toast.success("Driver added");
+      getAllDrivers.refetch();
+    },
+  });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // const driver: Driver = {
-    //   // @ts-ignore
-    //   name: nameRef.current.value,
-    //   // @ts-ignore
-    //   accountId: parseInt(accountIdRef.current.value),
-    //   timezone: {
-    //     // @ts-ignore
-    //     name: timezone.abbrev,
-    //     // @ts-ignore
-    //     offset: timezone.offset,
-    //   },
-    //   // @ts-ignore
-    //   isStarter: starterRef.current.checked,
-    // };
-    // // @ts-ignore
-    // nameRef.current.value = "";
-    // // @ts-ignore
-    // accountIdRef.current.value = "";
-    // // @ts-ignore
-    // starterRef.current.checked = false;
+    const driver: Driver = {
+      // @ts-ignore
+      name: nameRef.current.value,
+      // @ts-ignore
+      accountId: parseInt(accountIdRef.current.value),
+      timezone: {
+        // @ts-ignore
+        name: timezone.abbrev,
+        // @ts-ignore
+        offset: timezone.offset,
+      },
+      // @ts-ignore
+      isStarter: starterRef.current.checked,
+    };
+    // @ts-ignore
+    nameRef.current.value = "";
+    // @ts-ignore
+    accountIdRef.current.value = "";
+    // @ts-ignore
+    starterRef.current.checked = false;
 
-    // mutation.mutate(driver);
+    await addDriverMutation.mutateAsync({ driver });
   };
 
   return (
