@@ -26,6 +26,62 @@ type Timezone {
   offset Int
 }
 
+model Event {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  duration        Int
+  trackId         String   @db.ObjectId
+  track           Track    @relation(fields: [trackId], references: [id])
+  greenFlagOffset Int
+  simStartTime    DateTime
+  sunrise         DateTime
+  sunset          DateTime
+}
+
+model Team {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  drivers      TeamDriver[]
+  car          Car          @relation(fields: [carId], references: [id])
+  startTimeGMT DateTime
+  carId        String       @db.ObjectId
+}
+
+type TeamDriver {
+  driverId String @db.ObjectId
+  laptime  Int
+  fuelburn Float
+}
+
+model Track {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  name         String
+  length       Float
+  pitstopTimes PitstopTime[]
+  Event        Event[]
+}
+
+type PitstopTime {
+  car  String
+  time Int
+}
+
+model Car {
+  id                       String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  fuelTankSize             Float
+  tireChangeTime           Int
+  tireChangeWhileRefueling Boolean
+  class                    String
+  Team                     Team[]
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
