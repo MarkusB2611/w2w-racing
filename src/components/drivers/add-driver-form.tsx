@@ -12,8 +12,9 @@ const AddDriverForm = () => {
   const starterRef = useRef();
   const getAllDrivers = trpc.driver.getAllDrivers.useQuery();
   const addDriverMutation = trpc.driver.addDriver.useMutation({
-    onSuccess: () => {
-      toast.success("Driver added");
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success(`Driver ${data.name} added`);
       getAllDrivers.refetch();
     },
   });

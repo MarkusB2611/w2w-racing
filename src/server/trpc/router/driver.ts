@@ -13,5 +13,6 @@ export const driverRouter = router({
     const driver = await ctx.prisma.driver.create({
         data: input.driver
     })
+    return driver
   })
 });
