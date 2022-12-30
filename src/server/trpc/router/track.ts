@@ -4,7 +4,9 @@ import { router, publicProcedure } from "../trpc";
 
 export const trackRouter = router({
   getAllTracks: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.track.findMany()
+    return ctx.prisma.track.findMany({
+      orderBy: {name: 'asc'}
+    })
   }),
   addTrack: publicProcedure
   .input(z.object({track: TrackSchema}))

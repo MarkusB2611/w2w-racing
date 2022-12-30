@@ -5,7 +5,9 @@ import { router, publicProcedure } from "../trpc";
 
 export const driverRouter = router({
   getAllDrivers: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.driver.findMany();
+    return ctx.prisma.driver.findMany({
+      orderBy: {name: 'asc'}
+    });
   }),
   addDriver: publicProcedure
   .input(z.object({driver: DriverSchema}))
