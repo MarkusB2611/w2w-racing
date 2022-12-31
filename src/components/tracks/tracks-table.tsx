@@ -1,5 +1,6 @@
 import { Track } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
+import Row from "../UI/row";
 import Title from "../UI/title";
 
 const TracksTable = () => {
@@ -18,13 +19,10 @@ const TracksTable = () => {
         <tbody>
           {tracks.data?.map((track: Track) => {
             return (
-              <tr
-                key={track.id}
-                className="odd: h-12 border-spacing-4 bg-gray-900 even:bg-gray-800"
-              >
+              <Row key={track.id}>
                 <td>{track.name}</td>
                 <td>{track.length}km</td>
-              </tr>
+              </Row>
             );
           })}
         </tbody>

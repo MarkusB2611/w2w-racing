@@ -1,5 +1,6 @@
 import { Car, Track } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
+import Row from "../UI/row";
 import Title from "../UI/title";
 
 const CarsTable = () => {
@@ -21,16 +22,13 @@ const CarsTable = () => {
         <tbody>
           {cars.data?.map((car: Car) => {
             return (
-              <tr
-                key={car.id}
-                className="odd: h-12 border-spacing-4 bg-gray-900 even:bg-gray-800"
-              >
+              <Row key={car.id}>
                 <td>{car.name}</td>
                 <td>{car.class}</td>
                 <td>{car.fuelTankSize}</td>
                 <td>{car.tireChangeTime} seconds</td>
                 <td>{car.tireChangeWhileRefueling ? "Yes" : "No"}</td>
-              </tr>
+              </Row>
             );
           })}
         </tbody>

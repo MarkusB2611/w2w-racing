@@ -1,5 +1,6 @@
 import { Driver } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
+import Row from "../UI/row";
 import Title from "../UI/title";
 
 const DriversTable = () => {
@@ -27,16 +28,13 @@ const DriversTable = () => {
         <tbody>
           {drivers.data?.map((driver: Driver) => {
             return (
-              <tr
-                key={driver.id}
-                className="odd: h-12 border-spacing-4 bg-gray-900 even:bg-gray-800"
-              >
+              <Row key={driver.id}>
                 <td>{driver.name}</td>
                 <td className="hidden md:table-cell">{driver.accountId}</td>
                 <td>{driver.timezone.name}</td>
                 <td>{driver.timezone.offset}</td>
                 <td>{driver.isStarter ? "yes" : "no"}</td>
-              </tr>
+              </Row>
             );
           })}
         </tbody>
