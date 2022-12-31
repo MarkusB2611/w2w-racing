@@ -11,7 +11,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="flex h-24 items-center justify-center bg-gray-900 align-text-bottom text-xl text-white shadow-md shadow-red-600 sm:justify-between sm:px-24">
+    <nav className="flex h-24 items-center justify-center bg-gray-900 align-text-bottom text-sm text-white shadow-md shadow-red-600 sm:justify-between sm:px-24 sm:text-xl">
       <div className="hidden sm:block">
         <Image src="/w2w.png" alt="Logo" width={100} height={50} />
       </div>
