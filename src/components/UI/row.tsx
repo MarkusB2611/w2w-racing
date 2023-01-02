@@ -1,6 +1,7 @@
-const Row = ({ key, children }: RowProps) => {
+const Row = ({ key, children, onClick }: RowProps) => {
   return (
     <tr
+      onClick={onClick}
       key={key}
       className="odd: h-12 border-spacing-4 bg-gray-900 even:bg-gray-800 hover:cursor-pointer hover:bg-red-600"
     >
@@ -11,7 +12,8 @@ const Row = ({ key, children }: RowProps) => {
 
 type RowProps = {
   key: string;
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
+  onClick?: () => Promise<Boolean>;
 };
 
 export default Row;
