@@ -8,6 +8,14 @@ export const eventRouter = router({
       orderBy: {name: 'asc'}
     })
   }),
+  getEventByName: publicProcedure
+  .input(z.object({eventName: z.string()}))
+  .query(({ input, ctx }) => {
+    return ctx.prisma.event.findUnique({
+      where: {name: input.eventName}
+    })
+  }),
+  
   addEvent: publicProcedure
   .input(z.object({event: EventSchema}))
   .mutation(async ({input, ctx}) => {

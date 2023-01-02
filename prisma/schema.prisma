@@ -30,7 +30,7 @@ model Event {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  name            String
+  name            String    @unique
   duration        Int
   trackId         String
   track           Track     @relation(fields: [trackId], references: [id])
