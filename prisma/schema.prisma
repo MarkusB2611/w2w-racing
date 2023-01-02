@@ -27,17 +27,17 @@ type Timezone {
 }
 
 model Event {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   name            String
   duration        Int
-  trackId         String   @db.ObjectId
-  track           Track    @relation(fields: [trackId], references: [id])
-  greenFlagOffset Int
-  simStartTime    DateTime
-  sunrise         DateTime
-  sunset          DateTime
+  trackId         String
+  track           Track     @relation(fields: [trackId], references: [id])
+  greenFlagOffset Int?
+  simStartTime    DateTime?
+  sunrise         DateTime?
+  sunset          DateTime?
 }
 
 model Team {
