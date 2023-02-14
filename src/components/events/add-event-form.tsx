@@ -4,7 +4,6 @@ import { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { trpc } from "../../utils/trpc";
 import { Event } from "../../models/event";
-import PreviousMap from "postcss/lib/previous-map";
 import { durationOptions } from "../../helpers/options";
 
 const AddEventForm = () => {
