@@ -23,5 +23,11 @@ export const eventRouter = router({
         data: input.event
     })
     return event
+  }),
+  updateEvent: publicProcedure
+  .input(z.object({event: EventSchema, id: z.string()}))
+  .mutation(async({input, ctx}) => {
+    const event = await ctx.prisma.event.update({where: {id: input.id}, data: input.event})
+    return event
   })
 });

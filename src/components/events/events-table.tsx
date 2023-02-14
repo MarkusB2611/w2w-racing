@@ -28,7 +28,7 @@ const EventsTable = () => {
               <Row
                 key={event.id}
                 onClick={() =>
-                  router.push(`/events/${event.name.replace(" ", "_")}`)
+                  router.push(`/events/${event.name.replaceAll(" ", "_")}`)
                 }
               >
                 <td>{event.name}</td>

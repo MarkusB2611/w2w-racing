@@ -27,17 +27,24 @@ type Timezone {
 }
 
 model Event {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  name            String    @unique
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  name            String       @unique
   duration        Int
   trackId         String
-  track           Track     @relation(fields: [trackId], references: [id])
-  greenFlagOffset Int?
-  simStartTime    DateTime?
-  sunrise         DateTime?
-  sunset          DateTime?
+  track           Track        @relation(fields: [trackId], references: [id])
+  teams           Team[]
+  greenFlagOffset Int
+  simStartTime    DateTime
+  sunrise         DateTime
+  sunset          DateTime
+  carClasses      carClasses[]
+}
+
+type carClasses {
+  id   String
+  text String
 }
 
 model Team {
@@ -48,6 +55,8 @@ model Team {
   car          Car          @relation(fields: [carId], references: [id])
   startTimeGMT DateTime
   carId        String       @db.ObjectId
+  Event        Event?       @relation(fields: [eventId], references: [id])
+  eventId      String?      @db.ObjectId
 }
 
 type TeamDriver {

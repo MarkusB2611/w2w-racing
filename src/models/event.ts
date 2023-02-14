@@ -4,10 +4,11 @@ export const EventSchema = z.object({
     name: z.string(),
     duration: z.number(),
     trackId: z.string(),
-    greenFlagOffset: z.number().optional(),
-    simStartTime: z.date().optional(),
-    sunrise: z.date().optional(),
-    sunset: z.date().optional()
+    greenFlagOffset: z.number(),
+    simStartTime: z.date(),
+    sunrise: z.date(),
+    sunset: z.date(),
+    carClasses: z.array(z.object({id: z.string(), text: z.string()}))
     })
 
 export type Event = z.infer<typeof EventSchema>
