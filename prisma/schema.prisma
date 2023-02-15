@@ -31,6 +31,7 @@ model Event {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
   name            String       @unique
+  date            DateTime
   duration        Int
   trackId         String
   track           Track        @relation(fields: [trackId], references: [id])

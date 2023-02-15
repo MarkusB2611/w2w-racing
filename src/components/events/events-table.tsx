@@ -1,4 +1,5 @@
 import { Event } from "@prisma/client";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { durationOptions } from "../../helpers/options";
 import { trpc } from "../../utils/trpc";
@@ -17,6 +18,7 @@ const EventsTable = () => {
         <thead className="border-b border-b-red-600">
           <tr>
             <th>Name</th>
+            <th>Date</th>
             <th>Track</th>
             <th>Duration</th>
           </tr>
@@ -32,6 +34,13 @@ const EventsTable = () => {
                 }
               >
                 <td>{event.name}</td>
+                <td>
+                  {Intl.DateTimeFormat("en-GB", {
+                    year: "numeric",
+                    month: "long",
+                    day: "2-digit",
+                  }).format(moment.utc(event.date).toDate())}
+                </td>
                 <td>
                   {
                     tracks.data?.find((track) => track.id === event.trackId)

@@ -9,12 +9,14 @@ import { durationOptions } from "../../../helpers/options";
 import { type Event } from "@prisma/client";
 import { trpc } from "../../../utils/trpc";
 import { WithContext as ReactTags } from "react-tag-input";
+import FormGroup from "../../../components/UI/form/form-group";
 
 const DEFAULT_EVENT = {
   id: "",
   createdAt: new Date(),
   updatedAt: new Date(),
   name: "",
+  date: moment.utc().toDate(),
   duration: 86400,
   trackId: "",
   greenFlagOffset: 42,
@@ -105,6 +107,11 @@ const EventDetailPage = () => {
     setEventData((prev) => ({ ...prev, name: newName }));
   };
 
+  const handleDateChange = (newDate: string) => {
+    const date = moment.utc(newDate);
+    setEventData((prev) => ({ ...prev, date: date.toDate() }));
+  };
+
   const handleDurationChange = (newDuration: number) => {
     setEventData((prev) => ({ ...prev, duration: newDuration }));
   };
@@ -157,12 +164,18 @@ const EventDetailPage = () => {
       </Title>
       <div className="mt-8">
         <form onSubmit={handleSubmit}>
-          <div className="flex gap-4">
+          <FormGroup title="General">
             <Input
               name="Name"
               value={eventData.name}
               onChange={handleNameChange}
               onBlur={handleInputBlur}
+            />
+            <Input
+              type="date"
+              name="date"
+              value={moment.utc(eventData.date).format("yyyy-MM-DD")}
+              onChange={handleDateChange}
             />
             <Input
               name="duration"
@@ -181,14 +194,23 @@ const EventDetailPage = () => {
               value={eventData.trackId}
               onChange={handleTrackChange}
             />
-            <Input
-              name="Green Flag Offset (in minutes)"
-              value={eventData.greenFlagOffset}
-              onChange={handleGreenFlagOffsetChange}
-              onBlur={handleInputBlur}
+            <ReactTags
+              classNames={{
+                tag: "bg-red-600 pr-4",
+                tagInputField:
+                  "rounded border-2 border-transparent bg-gray-200 p-2 text-gray-900 caret-red-600 hover:border-red-600 focus:border-red-600 focus:outline-0 md:w-72",
+              }}
+              inputFieldPosition="top"
+              allowDragDrop={false}
+              tags={eventData.carClasses}
+              suggestions={suggestions}
+              delimiters={[13]}
+              handleDelete={handleDelete}
+              handleAddition={handleAddition}
+              autocomplete
             />
-          </div>
-          <div className="flex gap-4">
+          </FormGroup>
+          <FormGroup title="Times">
             <Input
               type="datetime-local"
               name="simStartTime"
@@ -209,22 +231,15 @@ const EventDetailPage = () => {
               value={moment.utc(eventData.sunset).format("yyyy-MM-DD[T]HH:mm")}
               onChange={handleSunsetChange}
             />
-            <ReactTags
-              classNames={{
-                tag: "bg-red-600 pr-4",
-                tagInputField:
-                  "rounded border-2 border-transparent bg-gray-200 p-2 text-gray-900 caret-red-600 hover:border-red-600 focus:border-red-600 focus:outline-0 md:w-72",
-              }}
-              inputFieldPosition="top"
-              allowDragDrop={false}
-              tags={eventData.carClasses}
-              suggestions={suggestions}
-              delimiters={[13]}
-              handleDelete={handleDelete}
-              handleAddition={handleAddition}
-              autocomplete
+            <Input
+              name="Green Flag Offset (in minutes)"
+              value={eventData.greenFlagOffset}
+              onChange={handleGreenFlagOffsetChange}
+              onBlur={handleInputBlur}
             />
-          </div>
+          </FormGroup>
+          <div className="flex gap-4"></div>
+          <div className="flex gap-4"></div>
           <div className="flex gap-4">
             <button
               type="submit"
