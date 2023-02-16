@@ -10,6 +10,7 @@ import { type Event } from "@prisma/client";
 import { trpc } from "../../../utils/trpc";
 import { WithContext as ReactTags } from "react-tag-input";
 import FormGroup from "../../../components/UI/form/form-group";
+import discord, { EmbedBuilder, WebhookClient } from "discord.js";
 
 const DEFAULT_EVENT = {
   id: "",
@@ -157,6 +158,31 @@ const EventDetailPage = () => {
       carClasses: [...prev.carClasses, tag],
     }));
   };
+
+  const handlePostOnDiscordClick = () => {
+    // const request = new XMLHttpRequest();
+    // request.open(
+    //   "POST",
+    //   "https://discord.com/api/webhooks/1075563959928750161/t1aTZoCYLlJFw5i_ZqhiPv2mbY9d9o1ze_0v8HAo9j1iAzSb7nky0dvKQSGLltpE_D_o"
+    // );
+    // request.setRequestHeader("Content-type", "application/json");
+
+    // const params = {
+    //   content: "The message to send",
+    // };
+    // request.send(JSON.stringify(params));
+    const webhookClient = new WebhookClient({
+      id: "1075563959928750161",
+      token:
+        "t1aTZoCYLlJFw5i_ZqhiPv2mbY9d9o1ze_0v8HAo9j1iAzSb7nky0dvKQSGLltpE_D_o",
+    });
+    const embed = new EmbedBuilder().setTitle("Some Title").setColor(0x00ffff);
+
+    webhookClient.send({
+      content: "Webhook test",
+      embeds: [embed],
+    });
+  };
   return (
     <div className="p-4 sm:px-24">
       <Title>
@@ -251,6 +277,7 @@ const EventDetailPage = () => {
               <button
                 className="mt-4 rounded-lg bg-[#5662F6] p-4 hover:bg-[#3E47B3]"
                 type="button"
+                onClick={handlePostOnDiscordClick}
               >
                 Post on Discord
               </button>
